@@ -8,13 +8,13 @@ import { Image, SongContainer } from "./style";
 // };
 
 function LibrarySong({
+  songs,
   cover,
   name,
   artist,
   id,
   currentSong,
   setCurrentSong,
-  songs,
 }) {
   // const selectedSong = songs.filter((state) => state.id === id);
   // function handleSelectSong() {

@@ -1,0 +1,16 @@
+export const theme = {
+  libraryOpen: 0,
+  libraryClose: -400,
+  libraryOpenImg: 30,
+  libraryCloseImg: 35,
+  libraryOpenML: 80,
+  libraryCloseML: 0,
+  libraryOpenWidth: 900,
+  libraryCloseWidth: 1200,
+  libraryOpenInput: 1000,
+  libraryCloseInput: 1200,
+  //   libraryOpen: 0,
+  //   libraryClose: -300,
+  //   libraryOpen: 0,
+  //   libraryClose: -300,
+};

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   ButtonContainer,
+  ButtonLibrary,
   Img,
   InputContainer,
   MusicContainer,
@@ -9,7 +10,14 @@ import {
   SongContainer,
 } from "./style";
 
-function Player({ songs, currentSong, setCurrentSong, setSongs }) {
+function Player({
+  songs,
+  currentSong,
+  setCurrentSong,
+  setSongs,
+  isLibrary,
+  setIsLibrary,
+}) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [autoPlay, setAutoPlay] = useState<boolean>(false);
@@ -22,6 +30,12 @@ function Player({ songs, currentSong, setCurrentSong, setSongs }) {
     return (
       Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
     );
+  }
+
+  ///////////// Метод для открытия/закрытия библиотеки
+  function handleOpenLibrary() {
+    if (isLibrary) setIsLibrary(false);
+    else setIsLibrary(true);
   }
 
   ///////////// Обновляет таймер музыки
@@ -121,49 +135,51 @@ function Player({ songs, currentSong, setCurrentSong, setSongs }) {
   }, [currentSong, isPlaying]);
 
   return (
-    <>
-      <MusicContainer>
-        <Nav>
-          <h1>Calming Waves</h1>
-        </Nav>
-        <main>
-          <SongContainer>
-            <Img src={currentSong.cover} />
-            <h2>{currentSong.name}</h2>
-            <p>{currentSong.artist}</p>
-          </SongContainer>
-          <PlayerContainer>
-            <InputContainer>
-              <span>{getTime(currentTime)}</span>
-              <input
-                type="range"
-                value={currentTime || 0}
-                min={0}
-                max={duration}
-                onChange={handleInputChange}
-              />
-              <span>{getTime(duration) || "0:00"}</span>
-            </InputContainer>
-            <ButtonContainer>
-              <span onClick={handleChangeSongBack}>
-                <ion-icon name="play-skip-back-circle-outline"></ion-icon>
-              </span>
-              <span onClick={handlePlaySong}>
-                {!isPlaying ? (
-                  <ion-icon name="play-outline"></ion-icon>
-                ) : (
-                  <ion-icon name="pause-circle-outline"></ion-icon>
-                )}
-              </span>
-              <span onClick={handleChangeSongForward}>
-                <ion-icon name="play-skip-forward-circle-outline"></ion-icon>
-              </span>
-            </ButtonContainer>
-          </PlayerContainer>
-        </main>
-        <audio src={currentSong.audio} ref={audioRef} />
-      </MusicContainer>
-    </>
+    <MusicContainer isLibrary={isLibrary}>
+      <Nav>
+        <h1>Calming Waves</h1>
+      </Nav>
+      <ButtonLibrary onClick={handleOpenLibrary}>
+        <span>Library</span>
+        <ion-icon name="musical-note-outline"></ion-icon>
+      </ButtonLibrary>
+      <main>
+        <SongContainer>
+          <Img src={currentSong.cover} isLibrary={isLibrary} />
+          <h2>{currentSong.name}</h2>
+          <p>{currentSong.artist}</p>
+        </SongContainer>
+        <PlayerContainer>
+          <InputContainer isLibrary={isLibrary}>
+            <span>{getTime(currentTime)}</span>
+            <input
+              type="range"
+              value={currentTime || 0}
+              min={0}
+              max={duration}
+              onChange={handleInputChange}
+            />
+            <span>{getTime(duration) || "0:00"}</span>
+          </InputContainer>
+          <ButtonContainer>
+            <span onClick={handleChangeSongBack}>
+              <ion-icon name="play-skip-back-circle-outline"></ion-icon>
+            </span>
+            <span onClick={handlePlaySong}>
+              {!isPlaying ? (
+                <ion-icon name="play-outline"></ion-icon>
+              ) : (
+                <ion-icon name="pause-circle-outline"></ion-icon>
+              )}
+            </span>
+            <span onClick={handleChangeSongForward}>
+              <ion-icon name="play-skip-forward-circle-outline"></ion-icon>
+            </span>
+          </ButtonContainer>
+        </PlayerContainer>
+      </main>
+      <audio src={currentSong.audio} ref={audioRef} />
+    </MusicContainer>
   );
 }
 

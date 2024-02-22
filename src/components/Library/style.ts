@@ -1,11 +1,14 @@
 import styled from "styled-components";
+import { theme } from "../../theme";
 
-export const List = styled.div`
+export const List = styled.div<{ isLibrary: boolean }>`
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 330px;
   position: absolute;
   top: 0px;
+  left: ${(props) =>
+    props.isLibrary ? `${theme.libraryOpen}px` : `${theme.libraryClose}px`};
   box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.75);
   border-top: none;
   overflow-y: scroll;
